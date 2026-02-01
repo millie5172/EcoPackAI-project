@@ -77,7 +77,7 @@ def recommend():
         'top_recommendation': recommendations[0]
     })
 
-@app.route('/api/init-db', methods=['POST'])
+@app.route('/api/init-db', methods=['GET','POST'])
 def init_db():
     db.create_all()
     if Material.query.first() is None:
