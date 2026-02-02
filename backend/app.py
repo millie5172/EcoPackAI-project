@@ -4,7 +4,8 @@ from flask_cors import CORS
 import random
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.',
+static_url_path='')
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecopackai.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -23,17 +24,8 @@ class Material(db.Model):
     certifications = db.Column(db.JSON)
 
 @app.route('/')
-def home():
-    return jsonify({
-        "message": "EcoPackAI Backend is Running!",
-        "endpoints": [
-            "/api/materials",
-            "/api/recommend",
-            "/api/init-db",
-            "/api/analytics/dashboard"
-        ],
-        "status": "active"
-    })
+def index():
+    return app.send_static_file('index.html')
 
 @app.route('/api/materials')
 def get_materials():
